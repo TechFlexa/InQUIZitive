@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Topic,Subtopic,Question,Answer,Attempt,Quiz,Quiz_Question
+from .models import Topic,Subtopic,Question,Answer,Attempt,Quiz,Quiz_Question,UserProfile
 
 class TopicAdmin(admin.ModelAdmin):
 	list_display=["topic_name"]
@@ -31,3 +31,4 @@ admin.site.register(Answer,AnswerAdmin)
 admin.site.register(Attempt,AttemptAdmin)
 admin.site.register(Quiz,QuizAdmin)
 admin.site.register(Quiz_Question,Quiz_QuestionAdmin)
+admin.site.register(UserProfile)

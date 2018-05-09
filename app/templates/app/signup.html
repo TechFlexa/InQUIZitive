@@ -1,0 +1,29 @@
+<style type="text/css">
+	input{
+		display:block;
+	}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+	function checkPasswordMatch() {
+    var password = $("#txtNewPassword").val();
+    var confirmPassword = $("#txtConfirmPassword").val();
+
+    if (password != confirmPassword)
+        $("#divCheckPasswordMatch").html("Passwords do not match!");
+    else
+        	$("#divCheckPasswordMatch").html("Passwords match.");
+}
+</script>
+<form method="post" action="{% url 'app:signup' %}">
+	{% csrf_token %}
+	<input type="text" name="first_name" placeholder="Enter your full name" required>
+	<input type="email" name="email" placeholder="Email" required>
+	<input type="text" name="username" placeholder="Username" required>
+	<p>{{form.username.errors}}</p>
+	<input type="password" name="password" id="txtNewPassword" placeholder="Password" required>
+	<input type="password" name="confirm_password" id="txtConfirmPassword" placeholder="Re-enter Password" onkeyup="checkPasswordMatch();" required>
+	<input type="submit" value="Sign in">
+    <div class="registrationFormAlert" id="divCheckPasswordMatch">
+</div>
+</form>

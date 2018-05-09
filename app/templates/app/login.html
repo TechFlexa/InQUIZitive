@@ -1,0 +1,13 @@
+<style type="text/css">
+	input{
+		display:block;
+	}
+</style>
+<form action="{% url 'app:login' %}" method="post">
+	{% if response%}
+        <h4>INVALID LOGIN DETAILS SUPPLIED</h4>
+    {% endif %}
+	<input type="text" name="username" placeholder="Username" required>
+	<input type="password" name="password" placeholder="Password" required>
+	<input type="submit" name="submit" value="Login">
+</form>

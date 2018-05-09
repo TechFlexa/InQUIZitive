@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.utils import timezone as django_tz 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from phonenumber_field.modelfields import PhoneNumberField
 
 class Topic(models.Model):
 	topic_name=models.CharField(max_length=50)
@@ -41,14 +44,14 @@ class Answer(models.Model):
 
 class Attempt(models.Model):
 	Attempt_choices = (
-	('Practice','Practice',),
-	('Quiz','Quiz',),
+	(1,'Practice',),
+	(2,'Quiz',),
 	)
 	attempt_user=models.ForeignKey(User)
 	attempt_question=models.ForeignKey(Question)
 	attempt_score=models.FloatField(default=0.0)
 	attempt_answer=models.CharField(max_length=1000)
-	attempt_type=models.CharField(max_length=8,choices=Attempt_choices)
+	attempt_type=models.IntegerField(choices=Attempt_choices)
 	created_at = models.DateTimeField(default=django_tz.now)
 	updated_at = models.DateTimeField(default=django_tz.now)
 	def __str__(self):
@@ -69,7 +72,16 @@ class Quiz_Question(models.Model):
 	updated_at = models.DateTimeField(default=django_tz.now)
 
 
+class UserProfile(models.Model):
+	user = models.OneToOneField(User,blank=False)
+	mobile=PhoneNumberField()
+	def __unicode__(self):
+		return self.user.username
 
+	@receiver(post_save, sender=User)
+	def create_user_profile(sender, instance, created, **kwargs):
+	    if created:
+	        UserProfile.objects.create(user=instance)
 
 
 
